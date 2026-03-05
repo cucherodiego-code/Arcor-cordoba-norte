@@ -5,6 +5,29 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  // Floating Candies Animation
+  var candyContainer = document.getElementById('hero-candies');
+  if (candyContainer) {
+    var candySVGs = [
+      '<svg viewBox="0 0 60 40" fill="none"><ellipse cx="30" cy="20" rx="14" ry="12" fill="white"/><path d="M16 20c-4-6-12-6-14-4s2 8 6 8" stroke="white" stroke-width="2" fill="none"/><path d="M44 20c4-6 12-6 14-4s-2 8-6 8" stroke="white" stroke-width="2" fill="none"/></svg>',
+      '<svg viewBox="0 0 40 60" fill="none"><circle cx="20" cy="16" r="14" fill="white"/><path d="M20 30v28" stroke="white" stroke-width="3" stroke-linecap="round"/></svg>',
+      '<svg viewBox="0 0 40 40" fill="none"><polygon points="20,2 25,15 39,15 28,24 32,38 20,30 8,38 12,24 1,15 15,15" fill="white"/></svg>',
+      '<svg viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="16" fill="white"/></svg>',
+      '<svg viewBox="0 0 40 60" fill="none"><ellipse cx="20" cy="18" rx="14" ry="16" fill="white"/><polygon points="8,26 20,56 32,26" fill="white" opacity="0.8"/></svg>'
+    ];
+
+    for (var i = 0; i < 15; i++) {
+      var candy = document.createElement('div');
+      candy.className = 'candy';
+      candy.innerHTML = candySVGs[Math.floor(Math.random() * candySVGs.length)];
+      candy.style.left = Math.random() * 100 + '%';
+      candy.style.width = (18 + Math.random() * 24) + 'px';
+      candy.style.animationDuration = (18 + Math.random() * 30) + 's';
+      candy.style.animationDelay = -(Math.random() * 35) + 's';
+      candyContainer.appendChild(candy);
+    }
+  }
+
   // Mobile Nav Toggle
   const navToggle = document.getElementById('nav-toggle');
   const nav = document.getElementById('nav');

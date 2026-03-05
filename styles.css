@@ -143,27 +143,14 @@ img {
   align-items: center;
 }
 
-.logo-placeholder {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
+.logo-img {
+  height: 48px;
+  width: auto;
+  transition: var(--transition);
 }
 
-.logo-text {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 800;
-  font-size: 1.15rem;
-  color: var(--primary);
-  letter-spacing: 1px;
-}
-
-.logo-sub {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  font-size: 0.7rem;
-  color: var(--accent);
-  letter-spacing: 2px;
-  text-transform: uppercase;
+.logo-img:hover {
+  transform: scale(1.05);
 }
 
 .nav {
@@ -246,6 +233,36 @@ img {
   position: absolute;
   inset: 0;
   background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Floating Candies */
+.hero-candies {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.candy {
+  position: absolute;
+  opacity: 0.08;
+  animation: floatCandy linear infinite;
+  will-change: transform;
+}
+
+.candy svg {
+  width: 100%;
+  height: auto;
+}
+
+@keyframes floatCandy {
+  0% {
+    transform: translateY(100vh) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-120px) rotate(360deg);
+  }
 }
 
 .hero-content {
@@ -837,18 +854,13 @@ img {
 }
 
 .footer-logo {
-  display: flex;
-  flex-direction: column;
   margin-bottom: 16px;
 }
 
-.footer-logo .logo-text {
-  color: var(--white);
-  font-size: 1rem;
-}
-
-.footer-logo .logo-sub {
-  color: var(--accent);
+.footer-logo-img {
+  height: 50px;
+  width: auto;
+  filter: brightness(1.1);
 }
 
 .footer-desc {
