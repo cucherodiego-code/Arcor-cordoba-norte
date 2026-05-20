@@ -459,7 +459,7 @@ img {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   background: var(--white);
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
@@ -762,7 +762,7 @@ img {
 
 .logistica-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 32px;
   position: relative;
   z-index: 1;
@@ -1057,6 +1057,15 @@ img {
     flex-direction: column;
   }
 
+  .cobertura-img-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cobertura-img {
+    max-width: 100%;
+  }
+
   .top-bar-contact {
     flex-direction: column;
     gap: 4px;
@@ -1232,13 +1241,16 @@ img {
 
 /* Zona de Cobertura */
 .cobertura-img-wrapper {
-  text-align: center;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
   margin-top: 40px;
 }
 
 .cobertura-img {
-  max-width: 800px;
-  width: 100%;
+  flex: 1;
+  max-width: 48%;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.12);
 }
