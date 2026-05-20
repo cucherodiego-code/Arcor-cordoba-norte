@@ -80,40 +80,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('scroll', updateActiveLink);
 
-  // Stats Counter Animation
-  const statNumbers = document.querySelectorAll('.stat-number[data-target]');
-  let statsAnimated = false;
+  // Counter Animation (Stats Bar + Logística)
+  function animateCounter(el, duration) {
+    const target = parseInt(el.getAttribute('data-target'));
+    const suffix = el.getAttribute('data-suffix') || '';
+    const steps = duration / 16;
+    const increment = target / steps;
+    let current = 0;
 
-  function animateStats() {
-    if (statsAnimated) return;
-
-    const statsBar = document.querySelector('.stats-bar');
-    if (!statsBar) return;
-
-    const rect = statsBar.getBoundingClientRect();
-    if (rect.top < window.innerHeight && rect.bottom > 0) {
-      statsAnimated = true;
-
-      statNumbers.forEach(el => {
-        const target = parseInt(el.getAttribute('data-target'));
-        const duration = 2000;
-        const step = target / (duration / 16);
-        let current = 0;
-
-        const timer = setInterval(() => {
-          current += step;
-          if (current >= target) {
-            current = target;
-            clearInterval(timer);
-          }
-          el.textContent = Math.floor(current).toLocaleString('es-AR');
-        }, 16);
-      });
-    }
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(timer);
+      }
+      let display = Math.floor(current).toLocaleString('es-AR');
+      el.textContent = display + suffix;
+    }, 16);
   }
 
-  window.addEventListener('scroll', animateStats);
-  animateStats(); // Check on load
+  function setupCounterObserver(sectionSelector, duration) {
+    const section = document.querySelector(sectionSelector);
+    if (!section) return;
+
+    const counters = section.querySelectorAll('[data-target]');
+    let animated = false;
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animated) {
+          animated = true;
+          counters.forEach(el => animateCounter(el, duration));
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    obs.observe(section);
+  }
+
+  setupCounterObserver('.stats-bar', 1200);
+  setupCounterObserver('.logistica', 1200);
 
   // Fade-in on Scroll (Intersection Observer)
   const fadeElements = document.querySelectorAll(

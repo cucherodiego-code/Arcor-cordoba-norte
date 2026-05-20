@@ -1062,8 +1062,11 @@ img {
     align-items: center;
   }
 
-  .cobertura-img {
+  .cobertura-img-wrapper img:first-child,
+  .cobertura-img-wrapper img:last-child {
     max-width: 100%;
+    max-height: none;
+    flex: none;
   }
 
   .top-bar-contact {
@@ -1248,9 +1251,18 @@ img {
   margin-top: 40px;
 }
 
-.cobertura-img {
+.cobertura-img-wrapper img:first-child {
+  flex: 2;
+  max-width: 60%;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.cobertura-img-wrapper img:last-child {
   flex: 1;
-  max-width: 48%;
+  max-width: 28%;
+  max-height: 420px;
+  object-fit: contain;
   border-radius: 12px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.12);
 }
