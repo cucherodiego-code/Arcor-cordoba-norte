@@ -145,6 +145,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fadeElements.forEach(el => observer.observe(el));
 
+  // Match cobertura images height (desktop)
+  function matchCoberturaHeights() {
+    var wrapper = document.querySelector('.cobertura-img-wrapper');
+    if (!wrapper) return;
+    var imgs = wrapper.querySelectorAll('img');
+    if (imgs.length < 2) return;
+
+    var mapImg = imgs[0];
+    var localImg = imgs[1];
+
+    function setHeight() {
+      // Reset first
+      localImg.style.height = '';
+      if (window.innerWidth > 768) {
+        var mapH = mapImg.offsetHeight;
+        if (mapH > 0) {
+          localImg.style.height = mapH + 'px';
+        }
+      }
+    }
+
+    if (mapImg.complete) {
+      setHeight();
+    } else {
+      mapImg.addEventListener('load', setHeight);
+    }
+    window.addEventListener('resize', setHeight);
+  }
+
+  matchCoberturaHeights();
+
   // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
