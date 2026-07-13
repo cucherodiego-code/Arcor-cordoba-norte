@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Contact Form
+  // Contact Form (envío real vía FormSubmit a info@cordobanorte.com.ar)
   const form = document.getElementById('contactForm');
   if (form) {
     form.addEventListener('submit', (e) => {
@@ -202,20 +202,43 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.textContent = 'Enviando...';
       btn.disabled = true;
 
-      setTimeout(() => {
-        btn.textContent = 'Mensaje Enviado';
-        btn.style.background = '#27ae60';
-        btn.style.borderColor = '#27ae60';
-        btn.style.color = '#ffffff';
+      const data = new FormData(form);
+      data.append('_subject', 'Nueva consulta desde la web Córdoba Norte');
+      data.append('_template', 'table');
+      data.append('_captcha', 'false');
 
-        setTimeout(() => {
-          form.reset();
-          btn.textContent = originalText;
-          btn.style.background = '';
-          btn.style.borderColor = '';
-          btn.disabled = false;
-        }, 3000);
-      }, 1500);
+      fetch('https://formsubmit.co/ajax/info@cordobanorte.com.ar', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: data
+      })
+        .then(res => res.json())
+        .then(json => {
+          if (json.success === 'true' || json.success === true) {
+            btn.textContent = 'Mensaje Enviado ✓';
+            btn.style.background = '#27ae60';
+            btn.style.borderColor = '#27ae60';
+            btn.style.color = '#ffffff';
+            form.reset();
+          } else {
+            throw new Error(json.message || 'Error');
+          }
+        })
+        .catch(() => {
+          btn.textContent = 'Error al enviar. Intentá de nuevo';
+          btn.style.background = '#e74c3c';
+          btn.style.borderColor = '#e74c3c';
+          btn.style.color = '#ffffff';
+        })
+        .finally(() => {
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.style.background = '';
+            btn.style.borderColor = '';
+            btn.style.color = '';
+            btn.disabled = false;
+          }, 4000);
+        });
     });
   }
 
