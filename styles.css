@@ -849,6 +849,25 @@ img {
   color: var(--dark);
 }
 
+.form-fallback {
+  display: none;
+  margin-top: 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--dark);
+  text-align: center;
+}
+
+.form-fallback.visible {
+  display: block;
+}
+
+.form-fallback a {
+  color: #1d8a4e;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

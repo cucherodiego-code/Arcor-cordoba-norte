@@ -203,9 +203,26 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.disabled = true;
 
       const data = new FormData(form);
-      data.append('_subject', 'Nueva consulta desde la web Córdoba Norte');
-      data.append('_template', 'table');
+      data.append('_subject', 'Consulta web - ' + (data.get('Nombre') || '') + ' ' + (data.get('Apellido') || ''));
+      data.append('_replyto', data.get('Email') || '');
+      data.append('_template', 'basic');
       data.append('_captcha', 'false');
+
+      // Link de respaldo por WhatsApp con los datos ya cargados
+      const waTexto = 'Hola, les escribo desde la web.\n' +
+        'Nombre: ' + (data.get('Nombre') || '') + ' ' + (data.get('Apellido') || '') + '\n' +
+        'Email: ' + (data.get('Email') || '') + '\n' +
+        'Teléfono: ' + (data.get('Teléfono') || '') + '\n' +
+        'Comercio: ' + (data.get('Empresa / Comercio') || '') + '\n' +
+        'Consulta: ' + (data.get('Mensaje') || '');
+      const waLink = 'https://wa.me/5493525544893?text=' + encodeURIComponent(waTexto);
+
+      const fallback = document.getElementById('formFallback');
+      function mostrarFallback(texto) {
+        if (!fallback) return;
+        fallback.innerHTML = texto + ' <a href="' + waLink + '" target="_blank" rel="noopener">Escribinos por WhatsApp</a>';
+        fallback.classList.add('visible');
+      }
 
       fetch('https://formsubmit.co/ajax/info@cordobanorte.com.ar', {
         method: 'POST',
@@ -219,6 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.style.background = '#27ae60';
             btn.style.borderColor = '#27ae60';
             btn.style.color = '#ffffff';
+            mostrarFallback('Recibimos tu consulta. Si es urgente,');
             form.reset();
           } else {
             throw new Error(json.message || 'Error');
@@ -229,6 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
           btn.style.background = '#e74c3c';
           btn.style.borderColor = '#e74c3c';
           btn.style.color = '#ffffff';
+          mostrarFallback('No pudimos enviar el mensaje.');
         })
         .finally(() => {
           setTimeout(() => {
